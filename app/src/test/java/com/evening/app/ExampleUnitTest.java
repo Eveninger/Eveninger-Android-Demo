@@ -1,4 +1,4 @@
-package com.evening.eveningdemo;
+package com.evening.app;
 
 import org.junit.Test;
 
