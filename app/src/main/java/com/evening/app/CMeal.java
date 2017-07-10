@@ -7,12 +7,12 @@ import com.evening.annotation.Factory;
  */
 
 @Factory(
-        id = "Calzone",
+        id = "C",
         type = Meal.class
 )
-public class CalzonePizza implements Meal {
+public class CMeal implements Meal {
     @Override
     public float getPrice() {
-        return 8.5f;
+        return 4.5f;
     }
 }

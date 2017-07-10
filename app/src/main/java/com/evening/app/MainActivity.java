@@ -12,8 +12,8 @@ public class MainActivity extends AppCompatActivity {
 
         TextView priceTV = (TextView) findViewById(R.id.meal_price);
 
-        PizzaStore pizzaStore = new PizzaStore();
-        Meal meal = pizzaStore.order("Calzone");
+        KFC kfc = new KFC();
+        Meal meal = kfc.order("B");
         priceTV.setText(String.valueOf(meal.getPrice()));
     }
 }
