@@ -11,7 +11,7 @@ import javax.lang.model.type.MirroredTypeException;
  */
 
 /**
- * 被@Factory注解的类
+ * 被@Factory注解的类的信息
  */
 public class FactoryAnnotatedClass {
     //被@Factory注解的类Element

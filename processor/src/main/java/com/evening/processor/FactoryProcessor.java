@@ -42,9 +42,14 @@ public class FactoryProcessor extends AbstractProcessor {
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
+        //Types：一个用来处理TypeMirror的工具类
         typeUtils = processingEnvironment.getTypeUtils();
+        //Elements：一个用来处理Element的工具类
+        //Element: 扫描所有的Java源文件。源代码的每一个部分都是一个特定类型的Element。Element代表程序的元素，例如包、类或者方法。每个Element代表一个静态的、语言级别的构件。
         elementUtils = processingEnvironment.getElementUtils();
+        //Filer：使用Filer你可以创建文件
         filer = processingEnvironment.getFiler();
+        //Messager:提供给注解处理器一个报告错误、警告以及提示信息的途径
         messager = processingEnvironment.getMessager();
     }
 
@@ -78,12 +83,16 @@ public class FactoryProcessor extends AbstractProcessor {
             }
 
             TypeElement typeElement = (TypeElement) annotatedElement;
+
+            //创建被Factory注解的类信息的对象
             FactoryAnnotatedClass annotatedClass = new FactoryAnnotatedClass(typeElement);
+            //判断该类是否符合
             if (!isValidClass(annotatedClass)) {
                 return true;
             }
 
             //类符合条件
+            //获取使用同一种@Factory.type的聚合类
             FactoryGroupedClasses factoryClass = factoryClasses.get(annotatedClass.getQualifiedSuperClassName());
             if (factoryClass == null) {
                 String qualifiedGroupName = annotatedClass.getQualifiedSuperClassName();
@@ -94,7 +103,8 @@ public class FactoryProcessor extends AbstractProcessor {
             //将符合条件的类放入聚集类中
             factoryClass.add(annotatedClass);
         }
-        //为注解类生成工厂代码
+
+        //在聚合类中生成相关的工厂代码
         try {
             for (FactoryGroupedClasses fgc : factoryClasses.values()) {
                 System.out.println(fgc.toString());
