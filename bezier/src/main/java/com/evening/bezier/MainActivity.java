@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.evening.bezier.controlbezier.ControlCubicActivity;
 import com.evening.bezier.controlbezier.ControlQuadActivity;
+import com.evening.bezier.qqbubble.QQBubbleActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        List<String> data = Arrays.asList("控制二阶贝塞尔曲线", "控制三阶贝塞尔曲线");
+        List<String> data = Arrays.asList("控制二阶贝塞尔曲线", "控制三阶贝塞尔曲线", "QQ拖拽气泡");
         adapter.setData(data);
         adapter.setOnItemClickListener(new BezierAdapter.OnItemClickListener() {
             @Override
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         ControlCubicActivity.start(MainActivity.this);
                         break;
+                    case 2:
+                        QQBubbleActivity.start(MainActivity.this);
                     default:
                         break;
                 }

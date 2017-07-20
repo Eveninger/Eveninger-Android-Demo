@@ -19,6 +19,8 @@
         </activity>
         <activity android:name=".controlbezier.ControlCubicActivity">
         </activity>
+        <activity android:name=".qqbubble.QQBubbleActivity">
+        </activity>
     </application>
 
 </manifest>
