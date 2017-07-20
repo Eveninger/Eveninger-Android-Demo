@@ -1,1 +1,1 @@
-include ':scroller', ':processor', ':annotations', ':app', ':tiebaloadingview', ':expandablelinearlayout'
+include ':scroller', ':processor', ':annotations', ':app', ':tiebaloadingview', ':expandablelinearlayout', ':bezier', ':commonutils'
