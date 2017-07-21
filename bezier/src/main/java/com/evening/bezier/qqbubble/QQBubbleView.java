@@ -116,6 +116,26 @@ public class QQBubbleView extends View {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(measureDimension(widthMeasureSpec), measureDimension(heightMeasureSpec));
+    }
+
+    private int measureDimension(int measureSpec) {
+        int result;
+        int mode = MeasureSpec.getMode(measureSpec);
+        int size = MeasureSpec.getSize(measureSpec);
+        if (mode == MeasureSpec.EXACTLY) {
+            result = size;
+        } else {
+            result = (int) (2 * mBubbleRadius);
+            if (mode == MeasureSpec.AT_MOST) {
+                result = Math.min(result, size);
+            }
+        }
+        return result;
+    }
+
+    @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mCircleCenter.set(w / 2, h / 2);
@@ -128,6 +148,8 @@ public class QQBubbleView extends View {
             case MotionEvent.ACTION_DOWN:
                 //气泡未消失
                 if (mState != STATE_DISMISS) {
+                    //控件外面有嵌套ListView、RecyclerView等拦截焦点的控件，在ACTION_DOWN中请求父控件不拦截事件
+                    getParent().requestDisallowInterceptTouchEvent(true);
                     mDistance = (float) Math.hypot(event.getX() - mBubbleCenter.x, event.getY() - mBubbleCenter.y);
                     if (mDistance < mCircleRadius + mMaxDistance / 4) {
                         mState = STATE_DRAG;
@@ -156,12 +178,20 @@ public class QQBubbleView extends View {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                //ACTION_UP再把事件还回去
+                getParent().requestDisallowInterceptTouchEvent(false);
                 if (mState == STATE_DRAG) {
                     mState = STATE_DEFAULT;
                     setBubbleRestoreAnim();
                 } else if (mState == STATE_MOVE) {
-                    mState = STATE_DISMISS;
-                    setBubbleDismissAnim();
+                    //如果在移动状态下间距回到两倍半径之内，我们认为用户不想取消该气泡
+                    if (mDistance < 2 * mBubbleRadius) {
+                        mState = STATE_DEFAULT;
+                        setBubbleRestoreAnim();
+                    } else {
+                        mState = STATE_DISMISS;
+                        setBubbleDismissAnim();
+                    }
                 }
                 break;
         }
@@ -169,9 +199,10 @@ public class QQBubbleView extends View {
     }
 
     private void setBubbleRestoreAnim() {
+        //TODO 这里必须使用PointF的拷贝，不能使用引用
         ValueAnimator animator = ValueAnimator.ofObject(new PointFEvaluator(),
-                mBubbleCenter,
-                mCircleCenter);
+                new PointF(mBubbleCenter.x, mBubbleCenter.y),
+                new PointF(mCircleCenter.x, mCircleCenter.y));
         animator.setDuration(500);
         animator.setInterpolator(new TimeInterpolator() {
             @Override
@@ -274,7 +305,6 @@ public class QQBubbleView extends View {
     protected void onDraw(Canvas canvas) {
 //        drawDebugInfo(canvas);
 //        drawPoints(canvas);
-        canvas.drawColor(Color.BLACK);
         if (mState != STATE_DISMISS) {
             drawBubble(canvas);
         }
