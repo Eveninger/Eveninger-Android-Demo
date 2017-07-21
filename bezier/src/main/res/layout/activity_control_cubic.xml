@@ -8,5 +8,6 @@
     tools:context="com.evening.bezier.controlbezier.ControlCubicActivity">
     <com.evening.bezier.controlbezier.CubicBezierView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"/>
 </FrameLayout>
