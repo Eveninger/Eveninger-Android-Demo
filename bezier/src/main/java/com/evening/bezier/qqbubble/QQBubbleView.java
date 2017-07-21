@@ -24,6 +24,7 @@ import com.evening.commonutils.MathUtil;
 
 /**
  * Created by Nighter on 17/7/20.
+ * Source: http://blog.csdn.net/qq_31715429/article/details/54386934
  */
 
 public class QQBubbleView extends View {
