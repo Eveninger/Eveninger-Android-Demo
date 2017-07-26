@@ -1,1 +1,1 @@
-include ':processor', ':annotations', ':app', ':tiebaloadingview', ':expandablelinearlayout', ':bezier', ':commonutils'
+include ':processor', ':annotations', ':app', ':tiebaloadingview', ':expandablelinearlayout', ':bezier', ':commonutils', ':qqscanradar'
